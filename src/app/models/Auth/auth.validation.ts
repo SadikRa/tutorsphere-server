@@ -1,35 +1,37 @@
 import { z } from 'zod';
 
-const loginValidationSchema = z.object({
+const loginZodSchema = z.object({
   body: z.object({
-    email: z
-      .string()
-      .email({ message: 'Please provide a valid email address' }),
-    password: z
-      .string()
-      .min(6, { message: 'Password must be at least 6 characters long' }),
-  }),
-});
-
-const changePasswordValidationSchema = z.object({
-  body: z.object({
-    oldPassword: z.string({
-      required_error: 'Old password is required',
+    email: z.string({
+      required_error: 'ID is required',
     }),
-    newPassword: z.string({ required_error: 'Password is required' }),
+    password: z.string({
+      required_error: 'Password is required',
+    }),
   }),
 });
 
-const refreshTokenValidationSchema = z.object({
+const refreshTokenZodSchema = z.object({
   cookies: z.object({
     refreshToken: z.string({
-      required_error: 'Refresh token is required!',
+      required_error: 'Refresh Token is required',
+    }),
+  }),
+});
+
+const changePasswordZodSchema = z.object({
+  body: z.object({
+    oldPassword: z.string({
+      required_error: 'Old password  is required',
+    }),
+    newPassword: z.string({
+      required_error: 'New password  is required',
     }),
   }),
 });
 
 export const AuthValidation = {
-  loginValidationSchema,
-  changePasswordValidationSchema,
-  refreshTokenValidationSchema,
+  loginZodSchema,
+  refreshTokenZodSchema,
+  changePasswordZodSchema,
 };
