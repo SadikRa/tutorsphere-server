@@ -1,8 +1,8 @@
 import { Document, Types } from "mongoose";
 
 export interface IReview extends Document {
-  student: Types.ObjectId; // Reference to User (student)
-  tutor: Types.ObjectId; // Reference to User (tutor)
+  student: Types.ObjectId; 
+  tutor: Types.ObjectId;
   rating: number;
   comment: string;
   timestamp: Date;
