@@ -1,34 +1,10 @@
-import { IUser } from './user.interface';
-import AppError from '../../errors/appError';
 import { StatusCodes } from 'http-status-codes';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { UserSearchableFields } from './user.constant';
-import mongoose from 'mongoose';
 import { UserModel } from './user.model';
+import AppError from '../../errors/AppError';
 
-// Function to register user
-const registerUser = async (userData: IUser) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
 
-  //  if ([USER_ROLE.ADMIN].includes(userData.role)) {
-  //    throw new AppError(
-  //      StatusCodes.NOT_ACCEPTABLE,
-  //      'Invalid role. Only User is allowed.',
-  //    );
-  //  }
-
-  // Check if the user already exists by email
-  const existingUser = await UserModel.findOne({
-    email: userData.email,
-  }).session(session);
-  if (existingUser) {
-    throw new AppError(
-      StatusCodes.NOT_ACCEPTABLE,
-      'Email is already registered',
-    );
-  }
-};
 // Create the user
 
 const getAllUser = async (query: Record<string, unknown>) => {
@@ -47,37 +23,25 @@ const getAllUser = async (query: Record<string, unknown>) => {
   };
 };
 
-const myProfile = async (authUser: IJwtPayload) => {
-  const isUserExists = await UserModel.findById(authUser.userId);
-  if (!isUserExists) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'User not found!');
-  }
 
-  const profile = await UserModel.findOne({ user: isUserExists._id });
 
-  return {
-    ...isUserExists.toObject(),
-    profile: profile || null,
-  };
-};
+// const updateProfile = async (authUser: IJwtPayload) => {
+//   const isUserExists = await UserModel.findById(authUser.userId);
 
-const updateProfile = async (authUser: IJwtPayload) => {
-  const isUserExists = await UserModel.findById(authUser.userId);
+//   if (!isUserExists) {
+//     throw new AppError(StatusCodes.NOT_FOUND, 'User not found!');
+//   }
 
-  if (!isUserExists) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'User not found!');
-  }
+//   const result = await UserModel.findOneAndUpdate(
+//     { user: authUser.email },
 
-  const result = await UserModel.findOneAndUpdate(
-    { user: authUser.email },
+//     {
+//       new: true,
+//     },
+//   ).populate('user');
 
-    {
-      new: true,
-    },
-  ).populate('user');
-
-  return result;
-};
+//   return result;
+// };
 
 const updateUserStatus = async (userId: string) => {
   const user = await UserModel.findById(userId);
@@ -92,9 +56,6 @@ const updateUserStatus = async (userId: string) => {
 };
 
 export const UserServices = {
-  registerUser,
   getAllUser,
-  myProfile,
   updateUserStatus,
-  updateProfile,
 };
