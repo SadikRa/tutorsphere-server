@@ -3,7 +3,6 @@ import { UserServices } from './user.service';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { StatusCodes } from 'http-status-codes';
-import { IImageFile } from '../../interface/IImageFile';
 import config from '../../config';
 import { IJwtPayload } from '../auth/auth.interface';
 

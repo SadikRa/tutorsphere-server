@@ -1,12 +1,15 @@
-import { Document } from "mongoose";
+import { Document } from 'mongoose';
+import { USER_ROLE } from './user.constant';
 
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  role: "student" | "tutor";
+  role: 'student' | 'tutor' | 'admin';
   bio?: string;
-  subjects?: string[]; // For tutors
-  availability?: Date[]; // For tutors
-  ratings?: number[]; // For tutors
+  subjects?: string[];
+  availability?: Date[];
+  ratings?: number[];
 }
+
+export type UserRole = keyof typeof USER_ROLE;
