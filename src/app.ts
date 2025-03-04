@@ -13,11 +13,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 // CORS
-app.use(cors({ origin: 'https://manga-verse-chi.vercel.app', credentials: true }));
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 // Application routes
 
-app.use("/api/v1", router);
+app.use('/api/v1', router);
 
 // Default route
 app.get('/', (req: Request, res: Response) => {

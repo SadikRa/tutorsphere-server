@@ -36,12 +36,30 @@ const loginUser = catchAsync(async (req, res) => {
   });
 });
 
-const refreshToken = catchAsync(async () => {
-  // Implement refresh token logic here
+//change password
+const changePassword = catchAsync(async (req, res) => {
+  const { ...passwordData } = req.body;
+
+  const result = await AuthService.changePassword(req.user, passwordData);
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Password is updated succesfully!',
+    data: result,
+  });
 });
 
-const changePassword = catchAsync(async () => {
-  // Implement change password logic here
+//refreshESGToken
+const refreshToken = catchAsync(async (req, res) => {
+  const { refreshToken } = req.cookies;
+  const result = await AuthService.refreshToken(refreshToken);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'access token retrieved success',
+    data: result,
+  });
 });
 
 export const AuthController = {
