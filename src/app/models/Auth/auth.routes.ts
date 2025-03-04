@@ -22,7 +22,7 @@ router.post(
 
 router.post(
   '/change-password',
-  auth(USER_ROLE.ADMIN, USER_ROLE.STUDENT),
+  auth(USER_ROLE.admin, USER_ROLE.student),
   validateRequest(AuthValidation.changePasswordZodSchema),
   AuthController.changePassword,
 );

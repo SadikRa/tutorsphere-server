@@ -7,19 +7,23 @@ const userSchema = new Schema<IUser, UserModelInterface>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true, select: false }, // Hide password by default
+    password: { type: String, required: true, select: false },
     role: {
       type: String,
       enum: ['student', 'tutor', 'admin'],
-      required: true,
       default: 'student',
     },
+    profilePicture: { type: String, default: '' },
     bio: { type: String },
     subjects: [{ type: String }],
-    availability: [{ type: Date }],
-    ratings: [{ type: Number }],
-    isDeleted: { type: Boolean, default: false },
-    isBlocked: { type: Boolean, default: false },
+    hourlyRate: { type: Number },
+    ratings: { type: Number, default: 0 },
+    totalReviews: { type: Number, default: 0 },
+    availability: {
+      type: [{ day: String, slots: [{ start: String, end: String }] }],
+      default: [],
+    },
+    location: { type: String },
   },
   { timestamps: true },
 );
@@ -28,7 +32,10 @@ const userSchema = new Schema<IUser, UserModelInterface>(
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
-  this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds));
+  this.password = await bcrypt.hash(
+    this.password,
+    Number(config.bcrypt_salt_rounds),
+  );
   next();
 });
 
@@ -38,7 +45,10 @@ userSchema.statics.isUserExistsByEmail = async function (email: string) {
 };
 
 // Check if password matches
-userSchema.statics.isUserPasswordMatch = async function (plainTextPassword: string, hashedPassword: string) {
+userSchema.statics.isUserPasswordMatch = async function (
+  plainTextPassword: string,
+  hashedPassword: string,
+) {
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
 

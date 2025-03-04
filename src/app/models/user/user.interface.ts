@@ -7,10 +7,14 @@ export interface IUser extends Document {
   email: string;
   password: string;
   role: 'student' | 'tutor' | 'admin';
+  profilePicture: string;
   bio?: string;
   subjects?: string[];
   availability?: Date[];
+  hourlyRate: number;
   ratings?: number[];
+  totalReviews: number;
+  location: string;
   isDeleted?: boolean;
   isBlocked?: boolean;
 }
@@ -23,4 +27,4 @@ export interface UserModelInterface extends Model<IUser> {
   ): Promise<boolean>;
 }
 
-export type UserRole = keyof typeof USER_ROLE;
+export type TUserRole = keyof typeof USER_ROLE;
