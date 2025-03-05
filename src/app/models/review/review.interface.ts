@@ -1,7 +1,7 @@
-import { Document, Types } from "mongoose";
+import { Document, Types } from 'mongoose';
 
 export interface IReview extends Document {
-  student: Types.ObjectId; 
+  student: Types.ObjectId;
   tutor: Types.ObjectId;
   rating: number;
   comment: string;
