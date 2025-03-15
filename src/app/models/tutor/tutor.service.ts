@@ -56,6 +56,7 @@ export const becomingATutor = async (tutorData: Partial<IUser>) => {
   }
 };
 
+
 ///get all tutor
 const getTutors = async (query: Record<string, unknown>) => {
   const UserQuery = new QueryBuilder(UserModel.find({ role: 'tutor' }), query)

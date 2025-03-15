@@ -13,6 +13,7 @@ const AvailabilitySchema = z.object({
   ]),
 });
 
+
 // Define tutor validation schema
 export const TutorValidationSchema = z.object({
   body: z.object({
